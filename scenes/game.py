@@ -25,16 +25,22 @@ from scenes.muerte import gameOver
 
 from elements.cronometro import Tiempo
 
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 700
+pygame.mixer.init()
+screen=pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+
 def gameLoop():
     ''' iniciamos los modulos de pygame'''
 
     pygame.init()
 
+    pygame.mixer.music.load("assets/musica/musica.mp3")
+    pygame.mixer.music.play(-1)
+
 
     ''' Creamos y editamos la ventana de pygame (escena) '''
     ''' 1.-definir el tamaño de la ventana'''
-    SCREEN_WIDTH = 1000
-    SCREEN_HEIGHT = 700
 
     ''' 2.- crear el objeto pantalla'''
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
