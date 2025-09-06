@@ -37,6 +37,8 @@ from elements.vidaextra import Life
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 700
 pygame.mixer.init()
+sonido_powerup=pygame.mixer.Sound("assets/musica/powerup.mp3")
+sonido_disparo=pygame.mixer.Sound("assets/musica/disparo.mp3")
 screen=pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
 
 def gameLoop():
@@ -139,6 +141,7 @@ def gameLoop():
                 player.speed_time=pygame.time.get_ticks()+5000
             elif isinstance(choque2, Life):
                 player.vidas += 1
+            sonido_powerup.play()
             choque2.kill()
         
         choque= pygame.sprite.spritecollideany(player, enemies)
@@ -205,6 +208,7 @@ def gameLoop():
             # POR HACER (2.4): Agregar evento disparo proyectil
             elif event.type==pygame.MOUSEBUTTONDOWN:
                 player.shoot(pygame.mouse.get_pos())
+                sonido_disparo.play()
 
 
         clock.tick(40)
