@@ -29,6 +29,11 @@ from elements.enemigo2 import Enemy2
 
 from elements.enemigo3 import Enemy3
 
+from elements.velocidad import Speed
+powerups=pygame.sprite.Group()
+
+from elements.vidaextra import Life
+
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 700
 pygame.mixer.init()
@@ -68,6 +73,12 @@ def gameLoop():
 
     ADDENEMY3 = pygame.USEREVENT + 3
     pygame.time.set_timer(ADDENEMY3, 3000)
+
+    ADDPOWER=pygame.USEREVENT+4
+    pygame.time.set_timer(ADDPOWER, 6000)
+
+    ADDLIFE=pygame.USEREVENT+5
+    pygame.time.set_timer(ADDLIFE,9000)
 
     ''' 3.- creamos la instancia de jugador'''
     player = Player(SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -118,8 +129,17 @@ def gameLoop():
         pressed_keys = pygame.key.get_pressed()
         player.update(pressed_keys)
         enemies.update()
+        powerups.update()
         #actualizar la mira con el movimiento
         mira.update()
+
+        choque2= pygame.sprite.spritecollideany(player, powerups)
+        if choque2:
+            if isinstance(choque2,Speed):
+                player.speed_time=pygame.time.get_ticks()+5000
+            elif isinstance(choque2, Life):
+                player.vidas += 1
+            choque2.kill()
         
         choque= pygame.sprite.spritecollideany(player, enemies)
         if choque:
@@ -136,7 +156,7 @@ def gameLoop():
                 running = False
             #si se muere, se empieza el loop de la escena de muerte
                 gameOver()
-            
+        
         cronometro.imagen(screen)
 
         #dibujamos el puntaje abajo de los corazones
@@ -171,6 +191,16 @@ def gameLoop():
                 new_enemy = Enemy3(SCREEN_WIDTH, SCREEN_HEIGHT)
                 enemies.add(new_enemy)
                 all_sprites.add(new_enemy)
+            
+            elif event.type==ADDPOWER:
+                s=Speed(SCREEN_WIDTH,SCREEN_HEIGHT)
+                powerups.add(s)
+                all_sprites.add(s)
+            
+            elif event.type==ADDLIFE:
+                v=Life(SCREEN_WIDTH,SCREEN_HEIGHT)
+                powerups.add(v)
+                all_sprites.add(v)
             
             # POR HACER (2.4): Agregar evento disparo proyectil
             elif event.type==pygame.MOUSEBUTTONDOWN:
