@@ -25,6 +25,10 @@ from scenes.muerte import gameOver
 
 from elements.cronometro import Tiempo
 
+from elements.enemigo2 import Enemy2
+
+from elements.enemigo3 import Enemy3
+
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 700
 pygame.mixer.init()
@@ -56,8 +60,14 @@ def gameLoop():
     clock = pygame.time.Clock()
     ''' 2.- generador de enemigos'''
 
-    ADDENEMY = pygame.USEREVENT + 1
-    pygame.time.set_timer(ADDENEMY, 600)
+    ADDENEMY1 = pygame.USEREVENT + 1
+    pygame.time.set_timer(ADDENEMY1, 600)
+
+    ADDENEMY2 = pygame.USEREVENT + 2
+    pygame.time.set_timer(ADDENEMY2, 4500)
+
+    ADDENEMY3 = pygame.USEREVENT + 3
+    pygame.time.set_timer(ADDENEMY3, 3000)
 
     ''' 3.- creamos la instancia de jugador'''
     player = Player(SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -144,8 +154,18 @@ def gameLoop():
             elif event.type == QUIT:
                 running = False
             
-            elif event.type == ADDENEMY:
+            elif event.type == ADDENEMY1:
                 new_enemy = Enemy(SCREEN_WIDTH, SCREEN_HEIGHT)
+                enemies.add(new_enemy)
+                all_sprites.add(new_enemy)
+            
+            elif event.type == ADDENEMY2:
+                new_enemy = Enemy2(SCREEN_WIDTH, SCREEN_HEIGHT)
+                enemies.add(new_enemy)
+                all_sprites.add(new_enemy)
+            
+            elif event.type == ADDENEMY3:
+                new_enemy = Enemy3(SCREEN_WIDTH, SCREEN_HEIGHT)
                 enemies.add(new_enemy)
                 all_sprites.add(new_enemy)
             
