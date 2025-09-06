@@ -130,6 +130,9 @@ def gameLoop():
             if player.vidas<=0:
                 #si tiene 0 vidad se termina el juego
                 player.kill()
+                pygame.mixer.music.stop()
+                pygame.mixer.music.load("assets/perder/perder.mp3")
+                pygame.mixer.music.play(-1)
                 running = False
             #si se muere, se empieza el loop de la escena de muerte
                 gameOver()
